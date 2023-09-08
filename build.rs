@@ -35,6 +35,11 @@ fn rev() -> String {
             buf.push(' ');
             buf.push_str(&date);
         }
+        
+        if let Some(rust_version) = rust_version() {
+            buf.push(' ');
+            buf.push_str(&rust_version);
+        }
 
         return buf;
     }
@@ -51,6 +56,11 @@ fn commit_hash() -> Option<String> {
 fn build_date() -> Option<String> {
     // 这里同一个参数内不能出现空格，因为下方函数以空白作为分隔
     exec("date +[%Y-%m-%d][%H:%M:%S]").ok()
+}
+
+// rust版本
+fn rust_version() -> Option<String> {
+    exec("rustc --version").ok()
 }
 
 fn exec(command: &str) -> std::io::Result<String> {
